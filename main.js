@@ -33,13 +33,14 @@ createApp({
     addTask() {
       // Verifica se la nuova attività non è una stringa vuota
       if (this.newTask.trim() !== '') {
-        // Crea un oggetto FormData
+       
+        // Crea un oggetto FormDa, quando invio dati con FormData da JavaScript, PHP li tratta come se fossero stati inviati da un form HTML e li rende disponibili in $_POST.
         let formData = new FormData();
         // Aggiunge la nuova attività e l'azione al FormData
         formData.append('task', this.newTask.trim());
         formData.append('action', 'add');
 
-        // Eseguire una richiesta POST al server
+        // invia una richiesta POST al server
         axios.post(this.apiUrl, formData)
         // Quando la risposta è ricevuta
         .then(response => {
@@ -64,7 +65,8 @@ createApp({
       formData.append('completed', !task.completed);
       formData.append('action', 'toggle');
 
-      // Eseguire una richiesta POST al server
+      // Invio una richiesta POST al server
+
       axios.post(this.apiUrl, formData)
       // Quando la risposta è ricevuta
       .then(response => {
@@ -87,7 +89,7 @@ createApp({
         formData.append('id', task.id);
         formData.append('action', 'remove');
 
-        // Eseguire una richiesta POST al server
+        // Invio una richiesta POST al server
         axios.post(this.apiUrl, formData)
          // Quando la risposta è ricevuta
          .then(response => {
@@ -99,7 +101,7 @@ createApp({
           console.error(error);
         });
       } else {
-        
+
         // Se l'attività non è stata completata, mostra un messaggio di errore
         this.errorMessage = 'Impossibile eliminare task, non contrassegnato come done.';
       }
