@@ -3,20 +3,28 @@
 $file_path = 'todo-list.json';
 
 // Carico il contenuto del file "todo-list.json" e lo trasformo in un array PHP
-$json_string = file_get_contents($file_path);
-$todoList = json_decode($json_string, true);
+
+$json_string = file_get_contents($file_path); // leggo il file
+$todoList = json_decode($json_string, true); // decodifico il contenuto del file in un array associativo PHP
+
 
 // Controllo se sto ricevendo dati dal client tramite una richiesta POST
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
     // Estraggo i dati inviati tramite la richiesta POST
+
     $data = json_decode(file_get_contents('php://input'), true);
 
-    // Se i dati contengono un'azione
+    // Se i dati contengono un'azione, gestisco le azioni
     if (isset($data['action'])) {
       
         // Se l'azione è 'add' e se è presente il campo 'task'
+
         if ($data['action'] == 'add' && isset($data['task'])) {
+
             // Creo una nuova attività
+
             $new_task = array(
                 'id' => end($todoList)['id'] + 1,  // Assegno un ID incrementato rispetto all'ultimo ID esistente
                 'task' => $data['task'],           // Assegno il testo del task
@@ -26,11 +34,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $todoList[] = $new_task;
         } 
 
-        // Se l'azione è 'remove' e se è presente il campo 'id'...
+        // Se l'azione è 'remove' e se è presente il campo 'id'
+
         elseif ($data['action'] == 'remove' && isset($data['id'])) {
-            // Scorro tutta la lista di attività...
+            // Scorro tutta la lista di attività
+            
             foreach ($todoList as $i => $task) {
-                // Se l'ID dell'attività corrente corrisponde all'ID ricevuto e il task è completato...
+                // Se l'ID dell'attività corrente corrisponde all'ID ricevuto e il task è completato
+
                 if ($task['id'] == $data['id'] && $task['completed']) {
                     // Rimuovo l'attività dalla lista
                     array_splice($todoList, $i, 1);
@@ -39,13 +50,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         } 
 
-        // Se l'azione è 'toggle' e se sono presenti i campi 'id' e 'completed'...
+        // Se l'azione è 'toggle' e se sono presenti i campi 'id' e 'completed'
+
         elseif ($data['action'] == 'toggle' && isset($data['id']) && isset($data['completed'])) {
-            // Scorro tutta la lista di attività...
+
+            // Scorro tutta la lista di attività
+            
             foreach ($todoList as $i => $task) {
-                // Se l'ID dell'attività corrente corrisponde all'ID ricevuto...
+                // Se l'ID dell'attività corrente corrisponde all'ID ricevuto
+
                 if ($task['id'] == $data['id']) {
                     // Modifico lo stato di completamento dell'attività
+
                     $todoList[$i]['completed'] = $data['completed'];
                     break;  // Esco dal ciclo
                 }
