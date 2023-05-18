@@ -17,7 +17,13 @@ Se l'azione inviata dal frontend è 'remove' e l'ID del task è specificato, cer
 
 -salvo la lista aggiornata di task nel  file JSON tramite file put_contents
 
+Per 'toggle', cambia lo stato 'completato' del task con l'ID specificato.
+ 
+ 
+quindi server.php  controlla quale azione è stata richiesta (add, remove, toggle) e agisce di conseguenza. Per 'add', crea un nuovo task e lo aggiunge alla lista. Per 'remove', cerca il task con l'ID specificato e, se è contrassegnato come 'completato', lo rimuove. 
+Per 'toggle', cambia lo stato 'completato' del task con l'ID specificato.
 invio della risposta:
+
 
 Infine, invio al frontend la lista aggiornata di task in formato JSON. Il frontend userà queste informazioni per aggiornare la vista dell'utente.
 header('Content-Type: application/json');
