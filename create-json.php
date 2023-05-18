@@ -16,7 +16,9 @@ $todoList = [
     'completed' => true
   ]
 ];
-
+// encode converte un array php in una stringa JSON
 $json_string = json_encode($todoList);
+
+//put_contents scrive una stringa json in un file
 file_put_contents('todo-list.json', $json_string);
 ?>

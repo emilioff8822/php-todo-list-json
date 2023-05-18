@@ -1,82 +1,77 @@
 <?php
-// Specifico il percorso del file JSON da cui verranno letti i dati
+// Specifica il percorso del file JSON da cui leggere i dati
 $file_path = 'todo-list.json';
 
-// Carico il contenuto del file "todo-list.json" e lo trasformo in un array PHP
+// Legge il contenuto del file JSON in una stringa
+$json_string = file_get_contents($file_path);
 
-$json_string = file_get_contents($file_path); // leggo il file
-$todoList = json_decode($json_string, true); // decodifico il contenuto del file in un array associativo PHP
+// Decodifica la stringa JSON in un array PHP
+$todoList = json_decode($json_string, true);
 
-
-// Controllo se sto ricevendo dati dal client tramite una richiesta POST
-
+// Verifica se il metodo della richiesta HTTP è POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    // Estraggo i dati inviati tramite la richiesta POST
+    // Verifica se l'azione è impostata nella richiesta POST
+    if (isset($_POST['action'])) {
 
-    $data = json_decode(file_get_contents('php://input'), true);
+        // Se l'azione è 'add' e il task è impostato
+        if ($_POST['action'] == 'add' && isset($_POST['task'])) {
 
-    // Se i dati contengono un'azione, gestisco le azioni
-    if (isset($data['action'])) {
-      
-        // Se l'azione è 'add' e se è presente il campo 'task'
-
-        if ($data['action'] == 'add' && isset($data['task'])) {
-
-            // Creo una nuova attività
-
+            // Crea un nuovo task
             $new_task = array(
-                'id' => end($todoList)['id'] + 1,  // Assegno un ID incrementato rispetto all'ultimo ID esistente
-                'task' => $data['task'],           // Assegno il testo del task
-                'completed' => false                // Imposto lo stato del task come non completato
+                // L'ID del nuovo task è l'ID dell'ultimo task + 1
+                'id' => end($todoList)['id'] + 1,
+                // Il testo del task proviene dalla richiesta POST
+                'task' => $_POST['task'],
+                // Il task  è impostato come non completato
+                'completed' => false
             );
-            // Aggiungo la nuova attività alla lista
+            // Aggiunge il nuovo task all'elenco di task
             $todoList[] = $new_task;
         } 
 
-        // Se l'azione è 'remove' e se è presente il campo 'id'
-
-        elseif ($data['action'] == 'remove' && isset($data['id'])) {
-            // Scorro tutta la lista di attività
-            
+        // Se l'azione è 'remove' e l'ID è impostato
+        
+        elseif ($_POST['action'] == 'remove' && isset($_POST['id'])) {
+           
+          // Scorre l'elenco di task
             foreach ($todoList as $i => $task) {
-                // Se l'ID dell'attività corrente corrisponde all'ID ricevuto e il task è completato
-
-                if ($task['id'] == $data['id'] && $task['completed']) {
-                    // Rimuovo l'attività dalla lista
+               
+              // Se l'ID del task corrisponde all'ID nella richiesta POST e il task è completato
+                if ($task['id'] == $_POST['id'] && $task['completed']) {
+                    
+                  // Rimuove il task dall'elenco
                     array_splice($todoList, $i, 1);
-                    break;  // Esco dal ciclo
+                    break;
                 }
             }
         } 
 
-        // Se l'azione è 'toggle' e se sono presenti i campi 'id' e 'completed'
+        // Se l'azione è 'toggle' e l'ID e lo stato di completamento sono impostati
 
-        elseif ($data['action'] == 'toggle' && isset($data['id']) && isset($data['completed'])) {
+        elseif ($_POST['action'] == 'toggle' && isset($_POST['id']) && isset($_POST['completed'])) {
 
-            // Scorro tutta la lista di attività
-            
+            // Scorre l'elenco di task
             foreach ($todoList as $i => $task) {
-                // Se l'ID dell'attività corrente corrisponde all'ID ricevuto
-
-                if ($task['id'] == $data['id']) {
-                    // Modifico lo stato di completamento dell'attività
-
-                    $todoList[$i]['completed'] = $data['completed'];
-                    break;  // Esco dal ciclo
+                
+              // Se l'ID del task corrisponde all'ID nella richiesta POST
+                if ($task['id'] == $_POST['id']) {
+                    // Modifica lo stato di completamento del task
+                    $todoList[$i]['completed'] = $_POST['completed'] == 'true' ? true : false;
+                    break;
                 }
             }
         }
 
-        // Salvo la lista di attività aggiornata nel file JSON
+        // Scrive l'elenco di task aggiornato nel file JSON
         file_put_contents($file_path, json_encode($todoList));
     }
 }
 
-// Imposto il tipo di contenuto della risposta HTTP come JSON
+// Imposta l'intestazione 'Content-Type' della risposta a 'application/json'
 header('Content-Type: application/json');
 
-// Invio la lista di attività al client in formato JSON
+// Invia l'elenco di task come JSON
 echo json_encode($todoList);
 
 ?>

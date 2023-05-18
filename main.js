@@ -16,9 +16,9 @@ createApp({
     };
   },
 
-  // Metodi dell'applicazione Vue
   methods: {
     // Metodo per leggere la lista delle attività dal server
+
     readlist() {
       // Eseguire una richiesta GET al server
       axios.get(this.apiUrl)
@@ -36,7 +36,8 @@ createApp({
        
         // Crea un oggetto FormDa, quando invio dati con FormData da JavaScript, PHP li tratta come se fossero stati inviati da un form HTML e li rende disponibili in $_POST.
         let formData = new FormData();
-        // Aggiunge la nuova attività e l'azione al FormData
+        // Aggiunge la nuova attività e l'azione al FormData, tramite una coppia chiave valore. Creo  un campo chiamato 'action' e impostando il suo valore su 'add'. Quando il server riceve questa richiesta POST, controllerà il campo 'action' e, vedendo che è impostato su 'add', saprà che deve eseguire il codice per aggiungere una nuova attività.
+
         formData.append('task', this.newTask.trim());
         formData.append('action', 'add');
 

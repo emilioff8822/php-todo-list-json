@@ -31,7 +31,7 @@
           <!-- Mostra il nome del task -->
           {{ task.task }}
         </div>
-        
+
         <!-- Questo è il bottone per rimuovere un task. Quando viene cliccato, il metodo 'removeTask', definito nel file main.js, viene chiamato -->
         <button class="delete-btn" @click.stop="removeTask(task)">x</button>
       </li>
@@ -41,7 +41,7 @@
     <h2 v-if="tasks.length === 0"> Non ci sono task</h2>
 
     <!-- Se esiste un messaggio di errore, mostralo. La variabile 'errorMessage' è definita in main.js -->
-    <p v-if="errorMessage">{{ errorMessage }}</p>
+<p v-if="errorMessage" :style="{ color: 'fuchsia', fontSize: '1.5em' }">{{ errorMessage }}</p>
   </div>
 
 

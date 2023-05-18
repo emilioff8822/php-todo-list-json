@@ -1,4 +1,6 @@
 PHP AXIOS
+quando invio dati con FormData da JavaScript, PHP li tratta come se fossero stati inviati da un form HTML e li rende disponibili in $_POST.
+
 
 -All'inizio dello script PHP, carico il contenuto del file todo-list.json in una variabile $todoList. Questo file contiene la   lista di task
 
@@ -6,7 +8,6 @@ PHP AXIOS
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 
 -Prendo i dati inviati tramite la richiesta POST, li decodifico dal formato JSON e li memorizzo in una variabile $data.
-$data = json_decode(file_get_contents('php://input'), true);
 
 -Aggiunta di un nuovo task:
 -Verifico se l'azione inviata dal frontend è 'add' e se è stata inviata una nuova task. Se è così, creo un nuovo task con un ID  daato dall'ID dell'ultimo task nella lista più uno e lo aggiungo alla fine della tua lista di task.
@@ -51,7 +52,8 @@ AddTask:
  RemoveTask:
 verifica se un task è stato completato. Se è così, invia una richiesta POST al server per rimuovere il task. dopo chiama readlist per aggiornare la lista dei task. Se il task non è stato completato, mostra un messaggio di errore
 
-
+-formData.append('action', 'add');, sto creando un campo chiamato 'action' e impostando il suo valore su 'add'per indicare l'azione che si desidera che il server esegua.
+In questo caso specifico, 'add' indica al server che si desidera aggiungere una nuova attività. Quando il server riceve questa richiesta POST, controllerà il campo 'action' e, vedendo che è impostato su 'add', saprà che deve eseguire il codice per aggiungere una nuova attività.
 
 ________________
 ESEMPIO
