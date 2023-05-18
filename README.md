@@ -50,3 +50,30 @@ AddTask:
 
  RemoveTask:
 verifica se un task è stato completato. Se è così, invia una richiesta POST al server per rimuovere il task. dopo chiama readlist per aggiornare la lista dei task. Se il task non è stato completato, mostra un messaggio di errore
+
+
+
+________________
+ESEMPIO
+
+Supponiamo che l'utente inserisca "Fare la spesa" nel campo di input e prema il tasto Invio. main.js risponde al seguente modo:
+
+newTask viene impostato su "Fare la spesa".
+Viene invocata la funzione addTask.
+addTask invia una richiesta POST al server con l'azione 'add' e il task "Fare la spesa".
+Se la richiesta va a buon fine, newTask viene svuotato e readlist() viene invocato per aggiornare l'elenco dei task.
+
+
+Supponiamo che l'utente voglia contrassegnare "Fare la spesa" come completato. Clicca sulla task e main.js agisce nel seguente modo:
+
+toggleTask(task) viene invocato con il task "Fare la spesa" come argomento.
+toggleTask invia una richiesta POST al server con l'azione 'toggle' e l'ID del task.
+Se la richiesta va a buon fine, readlist() viene invocato per aggiornare l'elenco dei task.
+
+
+Supponiamo che l'utente voglia rimuovere "Fare la spesa" dalla lista. Clicca sul pulsante 'x' e main.js agisce nel seguente modo:
+
+removeTask(task) viene invocato con il task "Fare la spesa" come argomento.
+Se il task è contrassegnato come completato, removeTask invia una richiesta POST al server con l'azione 'remove' e l'ID del task.
+Se la richiesta va a buon fine, readlist() viene invocato per aggiornare l'elenco dei task.
+Se il task non è contrassegnato come completato, errorMessage viene impostato su 'Impossibile eliminare task non contrassegnata come done.'
