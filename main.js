@@ -1,110 +1,117 @@
-// Importo la funzione 'createApp' dalla libreria Vue.
 const { createApp } = Vue;
 
+// Creazione di un'applicazione Vue
 createApp({
+  // Funzione che restituisce i dati dell'applicazione
   data() {
     return {
-      // L'URL del mio server che gestisce le richieste per l'elenco dei task.
+      // URL del file server PHP
       apiUrl: 'server.php',
-
-      // L'array che contiene l'elenco dei task.
+      // Array per conservare le attività
       tasks: [],
-
-      // La variabile per il nuovo task che sarà aggiunto.
+      // Variabile per la nuova attività da aggiungere
       newTask: '',
-
-      // Un messaggio di errore che può essere mostrato all'utente.
+      // Variabile per eventuali messaggi di errore
       errorMessage: ''
     };
   },
 
+  // Metodi dell'applicazione Vue
   methods: {
-
-    // Questo metodo legge l'elenco dei task dal server.
+    // Metodo per leggere la lista delle attività dal server
     readlist() {
-      // Effettuo una richiesta GET al mio server.
+      // Eseguire una richiesta GET al server
       axios.get(this.apiUrl)
-        // Quando ricevo una risposta
-        
+        // Quando la risposta è ricevuta
         .then(result => {
-          // Aggiorno l'elenco dei task con i dati ricevuti dal server.
+          // Aggiorna l'array delle attività con i dati ricevuti
           this.tasks = result.data;
         });
     },
 
-    // Questo metodo aggiunge un nuovo task.
+    // Metodo per aggiungere una nuova attività
     addTask() {
-      // Controllo se il nuovo task non è vuoto.
+      // Verifica se la nuova attività non è una stringa vuota
       if (this.newTask.trim() !== '') {
-        // Effettuo una richiesta POST al mio server per aggiungere il nuovo task.
-        axios.post(this.apiUrl, {
-          task: this.newTask.trim(),
-          action: 'add'
-        })
-        // Quando ricevo una risposta...
-        .then(response => {
-          // Pulisco il campo del nuovo task.
-          this.newTask = '';
+        // Crea un oggetto FormData
+        let formData = new FormData();
+        // Aggiunge la nuova attività e l'azione al FormData
+        formData.append('task', this.newTask.trim());
+        formData.append('action', 'add');
 
-          // Leggo di nuovo l'elenco dei task per aggiornare la lista.
+        // Eseguire una richiesta POST al server
+        axios.post(this.apiUrl, formData)
+        // Quando la risposta è ricevuta
+        .then(response => {
+          // Pulisce la variabile per la nuova attività
+          this.newTask = '';
+          // Legge la lista delle attività dal server per aggiornare l'array delle attività
           this.readlist();
         })
-        // Se c'è un errore, lo stampo nella console.
+        // Se c'è un errore, lo stampa nella console
         .catch(error => {
           console.error(error);
         });
       }
     },
 
-    // Questo metodo cambia lo stato di un task da non completato a completato e viceversa.
+    // Metodo per cambiare lo stato di una attività
     toggleTask(task) {
-      // Effettuo una richiesta POST al mio server per cambiare lo stato del task.
-      axios.post(this.apiUrl, {
-        id: task.id,
-        completed: !task.completed,
-        action: 'toggle'
-      })
-      // Quando ricevo una risposta
+      // Crea un oggetto FormData
+      let formData = new FormData();
+      // Aggiunge l'ID dell'attività, il nuovo stato e l'azione al FormData
+      formData.append('id', task.id);
+      formData.append('completed', !task.completed);
+      formData.append('action', 'toggle');
+
+      // Eseguire una richiesta POST al server
+      axios.post(this.apiUrl, formData)
+      // Quando la risposta è ricevuta
       .then(response => {
-        // Leggo di nuovo l'elenco dei task per aggiornare la lista.
+        // Legge la lista delle attività dal server per aggiornare l'array delle attività
         this.readlist();
       })
-      // Se c'è un errore, lo stampo nella console.
+      // Se c'è un errore, lo stampa nella console
       .catch(error => {
         console.error(error);
       });
     },
 
-    // Questo metodo rimuove un task.
+    // Metodo per rimuovere una attività
     removeTask(task) {
-      // Controllo se il task è stato completato.
+      // Verifica se l'attività è stata completata
       if (task.completed) {
-        // Effettuo una richiesta POST al mio server per rimuovere il task.
-        axios.post(this.apiUrl, {
-          id: task.id,
-          action: 'remove'
-        })
-        // Quando ricevo una risposta
-        .then(response => {
-          // Leggo di nuovo l'elenco dei task per aggiornare la lista.
+        // Crea un oggetto FormData
+        let formData = new FormData();
+        // Aggiunge l'ID dell'attività e l'azione al FormData
+        formData.append('id', task.id);
+        formData.append('action', 'remove');
+
+        // Eseguire una richiesta POST al server
+        axios.post(this.apiUrl, formData)
+         // Quando la risposta è ricevuta
+         .then(response => {
+          // Legge la lista delle attività dal server per aggiornare l'array delle attività
           this.readlist();
         })
-        // Se c'è un errore, lo stampo nella console.
+        // Se c'è un errore, lo stampa nella console
         .catch(error => {
           console.error(error);
         });
       } else {
-        // Se il task non è stato completato, mostro un messaggio di errore.
-        this.errorMessage = 'Impossibile eliminare task , non contrassegnato come done.';
-
+        
+        // Se l'attività non è stata completata, mostra un messaggio di errore
+        this.errorMessage = 'Impossibile eliminare task, non contrassegnato come done.';
       }
     }
   },
 
   mounted() {
+
+    // Legge la lista delle attività dal server
     this.readlist();
   }
 })
-
-// collego  Vue all'elemento HTML con l'ID 'app'.
 .mount('#app');
+
+
