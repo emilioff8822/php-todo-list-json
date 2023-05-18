@@ -24,7 +24,8 @@ createApp({
     readlist() {
       // Effettuo una richiesta GET al mio server.
       axios.get(this.apiUrl)
-        // Quando ricevo una risposta...
+        // Quando ricevo una risposta
+        
         .then(result => {
           // Aggiorno l'elenco dei task con i dati ricevuti dal server.
           this.tasks = result.data;
