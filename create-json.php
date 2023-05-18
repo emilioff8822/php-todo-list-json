@@ -1,26 +1,22 @@
 <?php
-$team = [
-  [ 
-    'nome' => 'Mario',
-    'cognome' => 'Rossi',
-    'eta' => '18'
+$todoList = [
+  [
+    'id' => 1,
+    'task' => 'Fare la spesa',
+    'completed' => false
   ],
-  [ 
-    'nome' => 'Francesca',
-    'cognome' => 'Bianchi',
-    'eta' => '22'
+  [
+    'id' => 2,
+    'task' => 'Studiare per l\'esame',
+    'completed' => false
   ],
-  [ 
-    'nome' => 'Luigi',
-    'cognome' => 'Verdi',
-    'eta' => '33'
+  [
+    'id' => 3,
+    'task' => 'Chiamare il dottore',
+    'completed' => true
   ]
+];
 
-  ];
-
-  
-  $json_string = json_encode($team);
-  file_put_contents('json-team.json', $json_string);
-  var_dump($json_string);
-
+$json_string = json_encode($todoList);
+file_put_contents('todo-list.json', $json_string);
 ?>
