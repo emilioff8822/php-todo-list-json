@@ -1,0 +1,99 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  
+  }
+  body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+  }
+  
+  #app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  padding: 4rem;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+  
+  }
+  /* Stile del campo di input */
+  
+  input{
+  border: 1px solid #ccc;  
+  border-radius: 5px;
+  padding: 0.5rem;
+  width: 100%;
+  margin-bottom: 1rem;
+  }
+  
+  /* Stile del bottone per aggiungere un task */
+  button {
+  background-color: #09335e;  
+  color: wheat;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+  }
+  
+  ul {
+    width: 100%;
+    padding: 0;
+  }
+  /* Stile di ogni singolo task */
+  
+  li {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  background-color: #eee; 
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ccc;
+  }
+  
+  /* Stile del testo dei task completati */
+  .done {
+    text-decoration: line-through;
+  }
+  /* Stile del messaggio d'errore */
+  .error {
+    color: red;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .delete-btn {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    background-color: #808080;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .delete-btn:hover {
+    background-color: red;
+  }
+
+  .task-text {
+    display: flex;
+    align-items: center;
+  }
+
+.task-text.done {
+  text-decoration: line-through;
+}
