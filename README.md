@@ -27,6 +27,7 @@ echo json_encode($todoList);
 _____________________________________________________
 
 MAIN JS INDEX.PHP
+ho usato questi metodi fondamentalmente:
 
   readlist() {...},
   addTask() {...},
